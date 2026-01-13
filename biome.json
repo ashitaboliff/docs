@@ -3,7 +3,7 @@
   "files": {
     "includes": [
       "src/**",
-      "docusaurus.config.mjs",
+      "docusaurus.config.ts",
       "tsconfig.json",
       "package.json",
       "!.docusaurus",

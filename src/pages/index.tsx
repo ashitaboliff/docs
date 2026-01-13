@@ -20,9 +20,15 @@ function HomepageHeader() {
 				<div className={styles.buttons}>
 					<Link
 						className="button button--secondary button--lg"
-						to="/docs/intro"
+						to="/docs/setup"
 					>
-						Docusaurus Tutorial - 5min ⏱️
+						環境構築を始める 🚀
+					</Link>
+					<Link
+						className="button button--secondary button--lg"
+						to="/docs/category/web-development"
+					>
+						Web開発の基礎を学ぶ 📚
 					</Link>
 				</div>
 			</div>
@@ -34,8 +40,8 @@ export default function Home(): ReactNode {
 	const { siteConfig } = useDocusaurusContext()
 	return (
 		<Layout
-			title={`Hello from ${siteConfig.title}`}
-			description="Description will go into a meta tag in <head />"
+			title={siteConfig.title}
+			description="信州大学工学部所属サークル あしたぼのホームページについて、その開発ドキュメントです。Web開発の根幹から、環境構築の方法、useEffectは使うなという話まで幅広く解説しています。"
 		>
 			<HomepageHeader />
 			<main>

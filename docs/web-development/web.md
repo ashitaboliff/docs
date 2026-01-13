@@ -1,0 +1,63 @@
+---
+sidebar_position: 2
+---
+
+# 2. Webについて
+
+## 2.1 Webとは
+**Web**（World Wide Web）は、インターネット上で情報を共有するためのシステムです。 Webは、ウェブブラウザ（例: Chrome、Safari、Firefox）を使用してアクセスされ、テキスト、画像、動画、リンクなどのコンテンツを表示します。
+Webは、ウェブサーバーとクライアント（ユーザーのブラウザ）間で情報をやり取りする仕組みを提供し、インターネット上での情報の閲覧や共有を可能にします。
+
+## 2.2 Webの通信
+上記ではちょっと難しい言い方をしたのでもっと直感的にWebやウェブブラウザ、ウェブサーバーの関係を説明します。
+例えば、あなたがウェブブラウザで`https://www.ashitabo.net/booking`(あしたぼコマ表のURL)にアクセスしたとします。すると、
+1. ウェブブラウザ（クライアント）は、`https://www.ashitabo.net`に対応するウェブサーバーに以下のようなHTTPリクエストを送信します。
+    ```
+    GET /booking HTTP/1.1
+    Host: www.ashitabo.net
+    ```
+    **HTTPリクエスト**とは、HTTPプロトコル(そういう規則)に従って、クライアントがサーバーに対して「こんな情報をください！」とお願いするメッセージのことです。
+2. ウェブサーバーはこのリクエストを受け取り、`/booking`に対応するリソース（HTML、CSS、JavaScriptファイルなど）を探します。
+3. ウェブサーバーは、見つけたリソースをHTTPレスポンスとしてウェブブラウザに返します。実際に返されるレスポンスはブラウザの開発者ツールのネットワークタブなどで確認できますが、例えば以下のような形です。
+    ```
+    HTTP/1.1 200 OK
+    Date: Mon, 01 Jan 2024 12:00:00 GMT
+    Content-Type: text/html, charset=UTF-8
+    Server: Cloudflare
+    ...
+
+    <!DOCTYPE html>
+      <!--VE1_dXnh70_Gobm4XjeCC-->
+      <html lang="ja">
+          <head>
+            <meta charSet="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <link rel="preload" href="/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2" as="font" crossorigin="" type="font/woff2"/>
+            <link rel="preload" href="/_next/static/media/851Gkktt_005-s.p.43fae8c1.woff" as="font" crossorigin="" type="font/woff"/>
+            <link rel="preload" href="/_next/static/media/nicomoji_plus_v2_5-s.p.f1a5cf98.woff" as="font" crossorigin="" type="font/woff"/>
+            <link rel="stylesheet" href="/_next/static/chunks/4e20891f2fd03463.css" data-precedence="next"/>
+            <link rel="stylesheet" href="/_next/static/chunks/380fb01b7b272670.css" data-precedence="next"/>
+            <link rel="stylesheet" href="/_next/static/chunks/0f51ea33b641141d.css" data-precedence="next"/>
+            <link rel="preload" as="script" fetchPriority="low...
+
+    ```
+    細かい部分は置いておいて、ウェブサーバから`Content-Type: text/html`のようにHTMLファイルが返されていることがわかります。
+
+    :::warning
+    ここではまだHTMLのみしか取得できていないのでこのHTMLのみをブラウザで表示しても以下のような崩れたWebページにしかなりません
+    :::
+
+    <img src="https://docs-cdn.ashitabo.net/web-dev/2-1.jpg" alt="HTMLファイルのみを表示した状態のスクリーンショット" width="800" />
+
+4. ウェブブラウザは受け取ったHTMLを解釈し、必要に応じて追加のリソース（CSS、JavaScript、画像など）をウェブサーバーから取得します。これらのリソースもHTTPリクエストとレスポンスのやり取りで取得されます。  
+上記HTMLの`<head>`タグ内を見ると、CSSファイルやフォントファイルを取得するための`<link rel="preload" ...>`タグが含まれていて、このタグを見たブラウザはさらに追加のHTTPリクエストを送信してこれらのリソースを取得します。
+
+5. 最終的に、ウェブブラウザはこれらのリソースを組み合わせて、ユーザーに視覚的なWebページとして表示します。最終的には以下のような見た目になります。
+
+
+## 2.3 Webの歴史
+この辺はWikipediaでも読んでな！マスかき小僧ども！
+
+## Webの通信
+
+Webは、クライアント（ブラウザ）とサーバー間でHTTP/HTTPSプロトコルを使用して通信します。 クライアントがURLを入力すると、ブラウザはそのURLに対応するサーバーにリクエストを送信します。 サーバーはリクエストを処理し、対応するHTML、CSS、JavaScriptファイルをブラウザに返します。 ブラウザはこれらのファイルを解釈し、ユーザーに視覚的なWebページとして表示します。

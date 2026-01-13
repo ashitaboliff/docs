@@ -2,46 +2,31 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# はじめに
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## このドキュメントについて
 
-## Getting Started
+どうも！[あしたぼホームページ](https://www.ashitabo.net)のドキュメントへようこそ！この`ashitabo.net`を夜なべで作りました！watabeggです！  
+このドキュメントでは `ashitabo.net` の開発に使われている技術や、環境構築の方法、Web開発の基礎知識などを幅広く解説していきます。今後の保守運用、新機能追加の際に必ず読むように。
 
-Get started by **creating a new site**.
+![あしたぼホームページのスクリーンショット](https://raw.githubusercontent.com/watabegg/watabegg.github.io/refs/heads/master/public/images/product/ashitabo-v1.png)
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## ashitabo.net のなりたち
 
-### What you'll need
+あしたぼホームページは信州大学工学部所属サークル「あしたぼ」の公式サイトとして、2025年に新規作成されました。  
+以前までに使われていたサイト、アプリはPHPやWordPressで構築されており、セキュリティ面や保守運用の面で課題が多くありました。  
+そこで、最新のWeb技術を用いて、セキュリティ面や保守運用の面で優れたサイトを一から作成することにしました(半ば勝手に)。  
+そこでかなり高度でモダンな技術での再構築に成功し、アプリケーション内で出来ることが増えた半面、初学者のみによる保守運用が大変になってしまいました。  
+そのため、このドキュメントを通じて、あしたぼホームページの保守運用に必要な知識を体系的に学べるようにしました。夜なべで
 
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+## このドキュメントの構成
 
-## Generate a new site
+このドキュメントは大きく分けて以下の3つのパートに分かれています。
+1. **Web開発基礎知識**  
+   Web開発に必要な基礎知識を幅広く解説しています。Webについての知識、HTML/CSS/JavaScriptの基礎から、ReactやNext.jsの使い方まで網羅しています。
+2. **環境構築ガイド**  
+   あしたぼホームページの開発環境を構築するための手順を解説しています。初めてプロジェクトに参加する人はまずここから始めましょう。
+3. **あしたぼホームページ開発ドキュメント**  
+   あしたぼホームページの開発に関するドキュメントです。アーキテクチャ設計や各種技術選定の理由、実装の詳細などを解説していますがセキュリティに関わる部分は省略しています。  
 
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+各パートは独立していますが、初学者はWebの知識をさらう部分から始めてください。比較的平易な言葉を利用して、丁寧に解説しています。AIでの執筆は行わず、人力で書いていますから触るとほんのり暖かいですね。ほら...ね？
