@@ -1,0 +1,145 @@
+---
+sidebar_position: 3
+---
+
+import Figure from '@site/src/components/Figure'
+
+# 3. CSSについて
+
+この章では、CSS（Cascading Style Sheets）について説明します。CSSは、Webページの見た目やレイアウトを制御するためのスタイルシート言語です。
+HTMLがWebページの構造を定義するのに対して、CSSはその構造にスタイルを適用し、視覚的なデザインを実現します。
+
+## 3.1 CSSの基本
+まあごちゃごちゃかいてもしゃーないので早速コードを書いてみましょう。 [1. HTMLとは](./html)で説明したHTMLコードに対して、遊んでみましょう。
+まずは`style`属性を使って、直接HTML要素にスタイルを適用してみます。
+
+```html live
+<div style={{border: '1px solid #ccc', padding: '20px'}}>
+  <h1 style={{color: 'blue', textAlign: 'center'}}>見出し1</h1>
+  <p style={{fontSize: '18px', color: 'gray'}}>これは段落です。</p>
+
+  <ul style={{listStyleType: 'circle'}}>
+    <li>リストアイテム1</li>
+    <li style={{color: 'red'}}>リストアイテム2</li>
+    <li>リストアイテム3</li>
+  </ul>
+
+  <h2>見出し2</h2>
+
+  <table style={{width: '100%', borderCollapse: 'collapse'}}>
+    <tr>
+      <th>見出しA</th>
+      <th>見出しB</th>
+    </tr>
+    <tr>
+      <td>データ1</td>
+      <td style={{fontWeight: 'bold'}}>データ2</td>
+    </tr>
+  </table>
+
+  <a href="https://www.ashitabo.net" style={{textDecoration: 'none', color: 'green' }}>あしたぼホームページへ移動</a>
+
+  <img src="https://raw.githubusercontent.com/watabegg/watabegg.github.io/refs/heads/master/public/images/product/ashitabo-v1.png" style={{width: '800px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'}} alt="あしたぼホームページのスクリーンショット" />
+</div>
+```
+
+まあなんかさっき見たHTMLよりごちゃごちゃしましたね。こういう風にHTMLをデザインすることができます。
+
+:::warning 注意
+基本的に`style`属性を使うことはあまりありません。以下では、より一般的なCSSの使い方を説明します。
+:::
+
+## 3.2 CSSのセレクタとプロパティ
+CSSは、例えば以下のようにしてすべての`h1`要素の文字色を青にし、中央揃えにするスタイルを定義できます。
+
+```css
+h1 {
+  color: blue;
+  text-align: center;
+}
+```
+
+上記の例では、`h1`が**セレクタ**であり、`color`や`text-align`が**プロパティ**です。
+このスタイルをHTMLに適用するには、以下のように`<style>`タグ内にCSSコードを記述します。
+
+```html
+<style>
+  h1 {
+    color: blue;
+    text-align: center;
+  }
+</style>
+<div>
+  <h1>見出し1</h1>
+  <p>これは段落です。</p>
+</div>
+```
+
+また、HTML要素に`class`属性や`id`属性を追加して、特定の要素にスタイルを適用することもできます。
+
+```html
+<style>
+  .my-class {
+    font-size: 18px;
+    color: gray;
+  }
+  #my-id {
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+</style>
+<div id="my-id">
+  <h1>見出し1</h1>
+  <p class="my-class">これは段落です。</p>
+</div>
+```
+
+:::warning 注意
+`<style>`タグはHTMLファイルの`<head>`セクションに配置するのが一般的です。
+:::
+まあ`<style>`タグ内に書くのもあんまり良くないので、次では外部CSSファイルの使い方を説明します。
+
+## 3.3 外部CSSファイルの利用
+CSSコードを外部ファイルに分離することで、複数のHTMLファイルで同じスタイルを共有できます。[1. HTMLとは](./html)のおまけに登場した`sample.html`ファイルを例に説明します。
+まず、CSSコードを外部ファイルに保存します。`sample.html`と同じファイル内に`styles.css`という名前で以下の内容を保存します。
+```css
+h1 {
+  color: blue;
+  text-align: center;
+}
+.my-class {
+  font-size: 18px;
+  color: gray;
+}
+#my-id {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+```
+次に、`sample.html`ファイル内で`<link>`タグを使って外部CSSファイルを読み込みます。`sample.html`ファイル自体も以下のように修正します。
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>サンプルページ</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="my-id">
+      <h1>ようこそ、あしたぼホームページへ！</h1>
+      <p class="my-class">これはサンプルのHTMLページです。</p>
+      <a href="https://www.ashitabo.net">あしたぼホームページへ移動</a>
+    </div>
+  </body>
+</html>
+```
+
+出来た？出来たら以下スクリーンショットのようになるはずです！出来なかったら是非質問してね。
+<Figure src="https://docs-cdn.ashitabo.net/web-dev/3-1.jpg" caption="外部CSSファイルを利用したサンプルページのスクリーンショット" alt="外部CSSファイルを利用したサンプルページのスクリーンショット" />
+
+## 3.4 まとめ
+これがCSSの基本的な使い方です。CSSを使うことで、Webページの見た目やレイアウトを柔軟に制御できます。
+まあ今日ではTailwind CSSとかBootstrapとか色々便利なフレームワークがあるので、そっちを使うことが多いです。`ashitabo.net`でもTailwind CSSを使っています(2026年1月現在)が、基礎は知っておいた方が良いです。
+
+次はJavaScriptの基礎について説明します。

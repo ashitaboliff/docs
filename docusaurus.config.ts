@@ -24,13 +24,13 @@ const config: Config = {
 		locales: ['ja'],
 	},
 
-  themes: ['@docusaurus/theme-mermaid'],
+	themes: ['@docusaurus/theme-mermaid'],
 
-  markdown: {
-    mermaid: true,
-  },
+	markdown: {
+		mermaid: true,
+	},
 
-  plugins: ['@docusaurus/theme-live-codeblock'],
+	plugins: ['@docusaurus/theme-live-codeblock'],
 
 	presets: [
 		[
@@ -40,8 +40,7 @@ const config: Config = {
 					sidebarPath: './sidebars.ts',
 					// Please change this to your repo.
 					// Remove this to remove the "edit this page" links.
-					editUrl:
-						'https://github.com/ashitaboliff/docs/edit/main/',
+					editUrl: 'https://github.com/ashitaboliff/docs/edit/main/',
 				},
 				blog: {
 					showReadingTime: true,
@@ -51,8 +50,7 @@ const config: Config = {
 					},
 					// Please change this to your repo.
 					// Remove this to remove the "edit this page" links.
-					editUrl:
-						'https://github.com/ashitaboliff/docs/edit/main/',
+					editUrl: 'https://github.com/ashitaboliff/docs/edit/main/',
 					// Useful options to enforce blogging best practices
 					onInlineTags: 'warn',
 					onInlineAuthors: 'warn',
@@ -70,9 +68,9 @@ const config: Config = {
 		colorMode: {
 			respectPrefersColorScheme: true,
 		},
-    liveCodeBlock: {
-      playgroundPosition: 'bottom',
-    },
+		liveCodeBlock: {
+			playgroundPosition: 'bottom',
+		},
 		navbar: {
 			title: 'あしたぼ ドキュメント',
 			logo: {

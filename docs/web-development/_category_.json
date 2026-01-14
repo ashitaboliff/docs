@@ -3,6 +3,8 @@
   "position": 2,
   "link": {
     "type": "generated-index",
+    "title": "Web開発の基礎",
+    "slug": "category/web-development",
     "description": "Web開発の基本的な概念と技術を学びましょう。体系的な知識は僕もありません。"
   }
 }

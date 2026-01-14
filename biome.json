@@ -6,6 +6,7 @@
       "docusaurus.config.ts",
       "tsconfig.json",
       "package.json",
+      "sidebars.ts",
       "!.docusaurus",
       "!docs",
       "!blog"

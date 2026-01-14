@@ -1,0 +1,120 @@
+---
+sidebar_position: 4
+---
+
+import Figure from '@site/src/components/Figure'
+
+# 4. JavaScriptとは
+
+**JavaScript**は、Webページに動的な機能を追加するためのプログラミング言語です。JavaScriptを使用すると、ユーザーの操作に応じてコンテンツを変更したり、アニメーションを実行したり、フォームの入力を検証したりすることができます。
+この章では、ウェブブラウザ上で動作するJavaScriptのみを扱います。
+
+## 4.1 JavaScriptって結構特殊
+JavaScriptはウェブブラウザでのHTMLをいじくりまわすためにJavaをちょっとパクって作られた言語です。
+そのため、他のPythonやCとは異なり、ウェブブラウザに特化した機能がたくさん含まれています。
+
+中でも重要なのが**DOM**(Document Object Model)という概念です。
+まああんまり深く理解する必要がありませんが、HTMLの構造をJavaScriptで操作できるようにした仕組みだと思ってください。
+
+## 4.2 JavaScriptの基本構文
+JavaScriptの基本的な構文は以下の通りです。  
+
+```javascript
+// 変数の宣言
+let message = "Hello, World!";
+const pi = 3.14;
+// 関数の定義
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+// 条件分岐
+if (message) {
+  console.log(greet("Alice"));
+} else {
+  console.log("No message");
+}
+```
+
+先にPythonやC言語を学んでいる人はなんとなくイメージがつかめるかもしれません。多少の違いもありますが、基本的な考え方は似ています。
+:::tip
+変数の宣言に`let`と`const`がありますが、`const`は再代入しない定数を宣言するためのものです。
+:::
+
+:::warning
+`console.log(...)`はブラウザの開発者ツールのコンソールに出力するための命令です。実際のWebページ上には表示されません。
+:::
+
+## 4.3 JavaScriptでDOMを操作する
+JavaScriptを使用して、HTMLを操作することができます。例えば、以下のコードは、特定のIDを持つ要素のテキスト内容を変更します。
+```javascript
+document.getElementById("my-id-2").innerText = "新しいテキスト内容";
+```
+
+このコードは、HTMLドキュメント内のIDが`my-id-2`の要素を取得し、そのテキスト内容を`新しいテキスト内容`に変更します。
+実際に先ほど書いたHTMLファイルを少し編集して、かつ`<script>`タグ内にこのJavaScriptコードを追加してみましょう。
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>サンプルページ</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {  
+        document.getElementById("my-id-2").innerText = "新しいテキスト内容";
+      });
+    </script>
+  </head>
+  <body>
+    <div id="my-id">
+      <h1 id="my-id-2">ようこそ、あしたぼホームページへ！</h1>
+      <p class="my-class">これはサンプルのHTMLページです。</p>
+      <a href="https://www.ashitabo.net">あしたぼホームページへ移動</a>
+    </div>
+  </body>
+</html>
+```
+
+開くと`<h1>`タグ内のテキストが書き変わっていましたね。このコードでは、`.addEventListener`メソッドと`DOMContentLoaded`イベントを使用して、HTMLドキュメントが完全に読み込まれた後にJavaScriptコードが実行されるようにしています。
+
+次に、ボタンをクリックしたときにテキスト内容を変更する例を見てみましょう。
+また、JavaScriptを別ファイルに分離してみます。`sample.html`ファイルと同じフォルダ内に`script.js`という名前で以下の内容を保存します。
+
+```js
+// script.js
+function changeText() {
+  document.getElementById("my-id-2").innerText = "ボタンがクリックされました！";
+}
+```
+
+```html
+<!-- sample.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>サンプルページ</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div id="my-id">
+      <h1 id="my-id-2">ようこそ、あしたぼホームページへ！</h1>
+      <p class="my-class">これはサンプルのHTMLページです。</p>
+      <button onclick="changeText()">クリックしてね</button>
+      <a href="https://www.ashitabo.net">あしたぼホームページへ移動</a>
+    </div>
+  </body>
+</html>
+```
+
+「クリックしてね」と書かれたボタンをクリックすると、`<h1>`タグ内のテキストが`ボタンがクリックされました！`に変更されます。
+このように、JavaScriptを使用してユーザーの操作に応じてWebページの内容を動的に変更することができます。
+
+特にbuttonタグは`onclick`属性を持っていて、ここにJavaScriptの関数名を書くと、そのボタンがクリックされたときにその関数が実行されます。
+
+## 4.4 まとめ
+- JavaScriptはWebページに動的な機能を追加するためのプログラミング言語
+- DOMを操作してHTMLの内容を動的に変更できる
+- JavaScriptコードはHTML内の`<script>`タグに直接書くことも、外部ファイルに分離して読み込むこともできる
+
+以上です。これがWebの基礎知識になります。続いてはTypeScriptについて説明します。

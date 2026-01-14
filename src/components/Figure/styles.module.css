@@ -1,0 +1,12 @@
+figure {
+  counter-increment: fig;
+}
+
+figcaption {
+  text-align: center;
+}
+
+figcaption::before {
+  content: "図 " counter(fig) ": ";
+  font-weight: bold;
+}

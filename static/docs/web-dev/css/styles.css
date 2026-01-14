@@ -1,0 +1,12 @@
+h1 {
+  color: blue;
+  text-align: center;
+}
+.my-class {
+  font-size: 18px;
+  color: gray;
+}
+#my-id {
+  border: 1px solid #ccc;
+  padding: 20px;
+}
