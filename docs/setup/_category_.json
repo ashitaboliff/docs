@@ -1,0 +1,10 @@
+{
+  "label": "環境構築",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "title": "環境構築",
+    "slug": "category/setup",
+    "description": "WSLからGit, VSCode, Node.jsのインストールまで、あしたぼホームページの開発環境を構築する手順を解説します。"
+  }
+}

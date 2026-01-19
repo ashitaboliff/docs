@@ -5,3 +5,239 @@ sidebar_position: 7
 import Figure from '@site/src/components/Figure'
 
 # 7. Reactとは
+
+Reactは、Webアプリの見た目を構築するためのJavaScriptライブラリです。Facebookによって開発され、めっちゃ使われています。
+Reactの使い方や構文は正直[公式ドキュメント](https://ja.reactjs.org/)を見たほうが早いですが、ここでは簡単に概要と思想を説明します。
+
+正直ここが一番カロリー高いので、頑張ってね。
+
+:::warning 注意
+ReactもTypeScriptと同じく、JavaScriptにコンパイル(変換)する必要があります。
+このままではブラウザで実行できないからねー
+:::
+
+## 7.1 状態
+Reactの最大の特徴は、**宣言的UI**という考え方です。  
+従来のJavaScriptでは、DOM(HTMLの要素)を直接指定・操作して見た目を更新していました。
+```javascript
+document.getElementById("my-id").innerText = "新しいテキスト内容";
+// my-id要素のテキスト内容を直接変更
+```
+
+Reactでは、UIの状態を関数のように **宣言的に定義** します。
+```jsx
+function MyComponent({ text }) {
+  return <div id="my-id">{text}</div>;
+}
+// textプロパティに基づいてUIを定義
+```
+
+**宣言的に定義** と言われても難しいですが、要は **どう変えるか** でなく **どう見えるか** を関数で記述します。
+この見え方の切り替えはstate(状態)という概念で管理され、状態が変わると自動的にUIが更新されます。
+
+例えば[さっき](./web-app)作ったWebアプリをReactで書くと以下のようになります。
+
+```jsx live
+function SimpleWebApp() {
+  const [inputText, setInputText] = useState('')
+  const [outputText, setOutputText] = useState('')
+
+  const showOutput = () => {
+    setOutputText(`入力されたテキスト: ${inputText}`);
+  }
+
+  return (
+    <div>
+      <h1>シンプルWebアプリ</h1>
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        placeholder="テキストを入力してください"
+      />
+      <button onClick={showOutput}>表示</button>
+      <div>{outputText}</div>
+    </div>
+  )
+}
+```
+
+:::warning 注意
+ここで出てくる`useState`はReactの機能で、なにかしらの**状態**(state)を管理します。
+```
+const [state, setState] = useState(initialValue);
+```
+このように書くと、`state`という変数に状態の値が入り、`setState`関数でその状態を更新できます。
+状態が更新されると、stateを参照しているUIが自動的に更新(再計算)されます。
+:::
+
+この例では、`inputText`と`outputText`という2つの状態を管理しています。
+- `inputText`: 入力フィールドのテキスト内容
+- `outputText`: 表示されるテキスト内容
+
+ユーザーが入力フィールドにテキストを入力すると`onChange={(e) => setInputText(e.target.value)}`というコードによって、`inputText`状態が更新されます。
+ボタンがクリックされると、`showOutput`関数が呼ばれ、`outputText`状態が更新されます。
+Reactはこれらの状態に基づいてUIを自動的に再計算し、表示内容を更新します。
+
+## 7.2 コンポーネントとプロパティ
+Reactでは、UIを**コンポーネント**という単位で構築します。
+コンポーネントは、UIの一部を表す**再利用可能な部品**です。
+例えば、ボタンや入力フィールド、ナビゲーションバーなどがコンポーネントとして定義できます。
+
+コンポーネントは**プロパティ**(props)を受け取ってUIを生成します。
+```jsx
+function MyButton({ label, onClick }) {
+  return <button onClick={onClick}>{label}</button>;
+}
+
+export default MyButton;
+```
+
+上記の例では、`MyButton`コンポーネントが`label`と`onClick`という2つのプロパティを受け取ります。
+- `label`: ボタンに表示されるテキスト
+- `onClick`: ボタンがクリックされたときに呼び出される関数
+
+コンポーネントは他のコンポーネント内で使用できます。
+```jsx
+import MyButton from './MyButton';
+
+function App() {
+  const handleClick = () => {
+    alert('ボタンがクリックされました！');
+  };
+
+  return <MyButton label="クリックしてね" onClick={handleClick} />;
+}
+```
+
+上記の例では、`App`コンポーネント内で`MyButton.jsx`ファイルでエクスポートされた`MyButton`コンポーネントを使用しています。
+この辺はまあ色々いじくりまわして理解しましょう。
+
+:::tip
+ここではpropsをプロパティと表記しましたが、みんなそのまま読んで`プロップス`って言います。
+:::
+
+## 7.3 `UI = f(state, props)`
+
+Reactの宣言的UIの考え方は、UIの状態を**関数**として定義することにあります。  
+数式モデルで言うと、UIは状態の関数`UI = f(state, props)`として表現されます。  
+理系な君らはこの関数の概念にするとピンとくるかもしれません。
+
+つまり、Reactの考え方は **状態(state)とプロパティ(props)がUIを作り、状態とプロパティが変わるとUIも変わる** ということです。
+
+この考え方により、UIの更新が非常にシンプルになります。
+状態やプロパティが変わると、Reactは自動的にUIを再計算し、必要な部分だけを更新します。
+これにより、手動でDOMを操作する必要がなくなり、コードが簡潔で保守しやすくなります。
+
+## 7.4 実際の例
+実際に、`ashitabo.net`で使われているstateとpropsを使ったコンポーネントを見てみましょう。
+```tsx
+'use client'
+
+import NextImage, { type ImageProps } from 'next/image'
+import { useState } from 'react'
+
+export type ImagesProps = { fallback?: string } & ImageProps
+
+export const Image = ({
+  src,
+  fallback = '/fallback.webp',
+  ...props
+}: ImagesProps) => {
+  const initialSrc = src && src.trim() !== '' ? src : fallback
+  const [imgSrc, setImgSrc] = useState<string>(initialSrc)
+
+  const handleError = () => {
+    if (imgSrc !== fallback) setImgSrc(fallback)
+  }
+
+  return <NextImage src={imgSrc} onError={handleError} {...props} />
+}
+```
+このコンポーネントは、画像を表示するためのものです。
+`src`プロパティで指定された画像URLが無効な場合、`fallback`プロパティで指定された代替画像を表示します。
+- `imgSrc`状態は、現在表示されている画像のURLを管理します。
+- `handleError`関数は、画像の読み込みエラーが発生したときに呼び出され、`imgSrc`状態を`fallback`画像に更新します。
+
+このように、状態とプロパティを組み合わせてUIを動的に制御しています。
+
+:::tip
+実際に`ashitabo.net`で画像が表示されないときにこのコンポーネントが動いています。代替画像になってる`fallback.webp`見たことある？
+:::
+
+## 7.5 `UI = f(state, props)`の例外
+Reactの宣言的UIの考え方は非常に強力ですが、すべてのケースで完全に適用できるわけではありません。
+例えば、JavaScriptでは`new Date()`を使うと毎回異なる日時オブジェクトが生成されます。
+```jsx live
+function ShowDate() {
+  return <div>{new Date().toString()}</div>;
+}
+```
+
+この例では、このページを更新すると日時が変わるため、UIも変わることになります。(ブラウザのリロード試してみ)  
+これはUIが状態とpropsから一意に決まらず、`UI = f(state, props)`の考え方から外れています。  
+また、逆に言えば「リロードを伴わずに現在時刻を表示したい！」と思っても、状態やpropsが変わらない限りUIは更新されません。
+
+このような場合、Reactでは**副作用**(side effects)という概念を使用して、UIの更新を制御します。
+
+副作用は、状態やプロパティの変更以外の要因でUIを更新するための仕組みです。
+例えば、`useEffect`を使用して、コンポーネントの読み込み時や更新時に特定の処理を実行できます。
+```jsx live
+function ShowDate() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // 1秒ごとに更新
+
+    return () => clearInterval(interval); // クリーンアップ
+  }, []);
+
+  return <div>{currentTime.toISOString()}</div>;
+}
+```
+
+この例では、`useEffect`を使用して1秒ごとに現在時刻を更新しています。
+これにより、stateの変更がUIを定期的に更新し、現在時刻が表示されます。
+
+まあこの辺はReactの中でもかなり高度な話なので、最初はあんまり気にしなくていいです。
+それに
+:::warning
+`useEffect`は使うな
+:::
+:::warning 本当に
+`useEffect`は使うな
+:::
+:::warning 絶対ね
+`useEffect`は使うな
+:::
+:::danger この理由を真に理解するまで
+`useEffect`は使うな
+:::
+:::danger 殺す
+`useEffect`は使うな
+:::
+:::danger ぶっ殺す
+`useEffect`は使うな
+:::
+
+この辺りの詳しい情報は[React とは何であるのか - @calloc134](https://github.com/calloc134/thinking-in-react)を参照してください。僕の1個下らしい、ひぇぇ
+
+## 7.6 Reactの学習リソース
+
+前述したように、Reactの公式ドキュメントが最も信頼できる情報源です。
+Reactは普通に難しすぎるせいでドキュメントがマジで親切ですから、ちゃんと読んでね。こっちの方が正しい。
+- [React公式ドキュメント (日本語)](https://ja.reactjs.org/)
+- [React公式チュートリアル - 三目並べ](https://ja.react.dev/learn/tutorial-tic-tac-toe)
+
+特にチュートリアルはReactの基本的な概念を学ぶのに最適です。三目並べ作ってね。
+
+## 7.7 まとめ
+- Reactは宣言的UIを提供するJavaScriptライブラリ
+- UIは状態(state)とプロパティ(props)の関数として定義される
+- 状態やプロパティが変わるとUIが自動的に更新される
+- コンポーネントは再利用可能なUIの部品として構築される
+- 副作用(side effects)を使用して、状態やプロパティ以外の要因でUIを更新できる
+
+以上がReactの基本的な考え方です。次はNext.jsというReactのフレームワークについて説明します。

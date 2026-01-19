@@ -1,0 +1,37 @@
+---
+sidebar_position: 1
+---
+
+import Figure from '@site/src/components/Figure'
+
+# WSLでの環境構築
+
+WindowsでWeb開発を行う場合、WSL(Windows Subsystem for Linux)を利用することが推奨されます。 WSLを使用することで、Linux環境をWindows上で簡単に利用でき、多くの開発ツールやライブラリがLinux向けに最適化されているため、開発がスムーズに行えます。
+
+:::tip
+MacやLinuxを使っている人はWSLのインストールは不要です。
+:::
+
+## 1. WSLのインストール
+
+まず、WSLをインストールします。まあ調べれば色々出ますが躓かないように以下の手順に従ってください。
+1. **WSLを有効化する**  
+   スタートメニューから「設定」を開きます。
+   「設定」 > 「アプリ」 > 「プログラムと機能」 > 「Windowsの機能の有効化または無効化」を選択します。  
+   「Linux用Windowsサブシステム」にチェックを入れて「OK」をクリックします。
+   <Figure
+     src="https://docs-cdn.ashitabo.net/setup/1-1.jpg"
+     caption="WSLを有効化する"
+     width={600}
+   />
+2. **PowerShellを管理者権限で開く**  
+   スタートメニューから「PowerShell」を検索し、右クリックして「管理者として実行」を選択します。
+3. **WSLのインストールコマンドを実行**  
+   以下のコマンドをPowerShellに入力して実行します。
+   ```powershell
+   wsl --install
+   ```
+4. **再起動**  
+   インストールが完了したら、PCを再起動します。しなくてもいいかもしれんけど一応してください。
+5. **初回起動とユーザー設定**  
+   Ubuntuを起動し、初回セットアップを行います。ユーザー名とパスワードを設定してください。

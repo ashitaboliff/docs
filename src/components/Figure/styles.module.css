@@ -1,6 +1,11 @@
 figure {
   counter-increment: fig;
 }
+figure img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
 
 figcaption {
   text-align: center;
