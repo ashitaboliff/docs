@@ -18,6 +18,9 @@ jobs:
         with:
           version: 10.12.4
 
+      - name: install dependencies
+        run: pnpm install --no-frozen-lockfile
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,8 +28,6 @@ jobs:
           cache: pnpm
       - name: Enable Corepack
         run: corepack enable
-      - name: Install dependencies
-        run: pnpm install
       - name: Lint & format check
         run: pnpm run check
       - name: Type check
