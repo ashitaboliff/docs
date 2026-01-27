@@ -1,0 +1,75 @@
+.stepList {
+  --step-size: 2.25rem;
+  --step-gap: 0.9rem;
+  --step-line: 2px;
+}
+
+.stepList ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.5rem 0;
+  counter-reset: step;
+}
+
+.stepList li {
+  position: relative;
+  padding-left: calc(var(--step-size) + var(--step-gap));
+  padding-bottom: 1.6rem;
+  margin: 0;
+}
+
+.stepList li:last-child {
+  padding-bottom: 0.2rem;
+}
+
+.stepList li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--step-size);
+  height: var(--step-size);
+  border-radius: 999px;
+  background: linear-gradient(
+    140deg,
+    var(--ifm-color-primary) 0%,
+    var(--ifm-color-primary-light) 100%
+  );
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepList li::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--step-size) / 2 - var(--step-line) / 2);
+  top: calc(var(--step-size));
+  width: var(--step-line);
+  height: calc(100% - var(--step-size));
+  background: var(--ifm-color-primary-light);
+  border-radius: 999px;
+}
+
+.stepList li:last-child::after {
+  display: none;
+}
+
+.stepList li > p {
+  margin: 0.1rem 0 0.6rem;
+}
+
+.stepList li > p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .stepList {
+    --step-size: 2rem;
+    --step-gap: 0.7rem;
+  }
+}

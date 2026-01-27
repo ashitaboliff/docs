@@ -2,6 +2,9 @@
 sidebar_position: 1
 ---
 
+import StepList from '@site/src/components/StepList'
+import InlineLink from '@site/src/components/InlineLink'
+
 # はじめに
 
 ## このドキュメントについて
@@ -22,12 +25,15 @@ sidebar_position: 1
 ## このドキュメントの構成
 
 このドキュメントは大きく分けて以下の3つのパートに分かれています。
+<StepList>
 1. **Web開発基礎知識**  
-   Web開発に必要な基礎知識を幅広く解説しています。Webについての知識、HTML/CSS/JavaScriptの基礎から、ReactやNext.jsの使い方まで網羅しています。
-   [Web開発基礎知識へ ->](./category/web-development)
+   Web開発に必要な基礎知識を幅広く解説しています。Webについての知識、HTML/CSS/JavaScriptの基礎から、ReactやNext.jsの使い方まで網羅しています。  
+   <InlineLink to="./category/web-development">Web開発基礎知識へ</InlineLink>
 2. **環境構築ガイド**  
-   あしたぼホームページの開発環境を構築するための手順を解説しています。初めてプロジェクトに参加する人はまずここから始めましょう。
+   あしたぼホームページの開発環境を構築するための手順を解説しています。初めてプロジェクトに参加する人はまずここから始めましょう。  
+   <InlineLink to="./category/setup">環境構築ガイドへ</InlineLink>
 3. **あしたぼホームページ開発ドキュメント**  
    あしたぼホームページの開発に関するドキュメントです。アーキテクチャ設計や各種技術選定の理由、実装の詳細などを解説していますがセキュリティに関わる部分は省略しています。  
+</StepList>
 
 各パートは独立していますが、初学者はWebの知識をさらう部分から始めてください。比較的平易な言葉を利用して、丁寧に解説しています。AIでの執筆は行わず(大嘘)、人力で書いていますから触るとほんのり暖かいですね。ほら...ね？

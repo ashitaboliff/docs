@@ -1,0 +1,44 @@
+.inlineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.15rem 0.65rem 0.2rem;
+  border-radius: 0.35rem;
+  color: var(--ifm-color-primary);
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.inlineLink:hover,
+.inlineLink:focus-visible {
+  color: var(--ifm-color-primary-dark);
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.inlineLink:active {
+  transform: translateY(1px);
+}
+
+.label {
+  line-height: 1.2;
+}
+
+.icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform 160ms ease;
+}
+
+.inlineLink:hover .icon,
+.inlineLink:focus-visible .icon {
+  transform: translateX(0.2rem);
+}
