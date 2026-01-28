@@ -5,7 +5,7 @@ import { themes as prismThemes } from 'prism-react-renderer'
 const config: Config = {
 	title: 'あしたぼホームページ 開発ドキュメント',
 	tagline: 'えいえいおー！',
-	favicon: 'favicon.svg',
+	favicon: 'favicon.png',
 
 	future: {
 		v4: true,
@@ -70,7 +70,7 @@ const config: Config = {
 			title: 'あしたぼ ドキュメント',
 			logo: {
 				alt: 'あしたぼホームページ ロゴ',
-				src: 'favicon.svg',
+				src: 'favicon.png',
 			},
 			items: [
 				{

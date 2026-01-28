@@ -5,51 +5,53 @@ import styles from './styles.module.css'
 
 type FeatureItem = {
 	title: string
-	Svg: React.ComponentType<React.ComponentProps<'svg'>>
+	img: string
 	description: ReactNode
 }
 
 const FeatureList: FeatureItem[] = [
 	{
-		title: 'この辺は',
-		Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+		title: '実務レベルのWeb開発',
+		img: '/img/quaver.png',
 		description: (
 			<>
-				Docusaurus was designed from the ground up to be easily installed and
-				used to get your website up and running quickly.
+				そこそこ本格的なWeb開発を通じて、モダンな開発手法や技術を学びましょう。
+				生成AI一強時代に負けないスキルを身につけることができるかもしれません。
 			</>
 		),
 	},
 	{
-		title: '気が向いたら',
-		Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+		title: 'クソデカガクチカ',
+		img: '/img/two_quavers.png',
 		description: (
 			<>
-				Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-				ahead and move your docs into the <code>docs</code> directory.
+				「全部自分で作りました」って言ってOK！
+				まあ29卒くらいまでならギリギリ使えるんじゃないでしょうか、ソフトウェアエンジニア就活で。
 			</>
 		),
 	},
 	{
-		title: '変えるね',
-		Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+		title: '他人のために意外となる',
+		img: '/img/crotchet.png',
 		description: (
 			<>
-				Extend or customize your website layout by reusing React. Docusaurus can
-				be extended while reusing the same header and footer.
+				自分の所属しているサークルメンバーのための開発が出来ます。
+				そこそこ楽しい。
 			</>
 		),
 	},
 ]
 
-function Feature({ title, Svg, description }: FeatureItem) {
+function Feature({ title, img, description }: FeatureItem) {
 	return (
 		<div className={clsx('col col--4')}>
 			<div className="text--center">
-				<Svg className={styles.featureSvg} role="img" />
+				<img className={styles.featureImage} src={img} alt={title} />
 			</div>
 			<div className="padding-horiz--md text--center">
-				<Heading as="h3">{title}</Heading>
+				<Heading as="h3" className={styles.featureTitle}>
+					{title}
+				</Heading>
 				<p>{description}</p>
 			</div>
 		</div>
