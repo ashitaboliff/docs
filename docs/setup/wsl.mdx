@@ -3,6 +3,7 @@ sidebar_position: 1
 ---
 
 import Figure from '@site/src/components/Figure'
+import StepList from '@site/src/components/StepList'
 
 # WSLでの環境構築
 
@@ -15,23 +16,101 @@ MacやLinuxを使っている人はWSLのインストールは不要です。
 ## 1. WSLのインストール
 
 まず、WSLをインストールします。まあ調べれば色々出ますが躓かないように以下の手順に従ってください。
-1. **WSLを有効化する**  
-   スタートメニューから「設定」を開きます。
-   「設定」 > 「アプリ」 > 「プログラムと機能」 > 「Windowsの機能の有効化または無効化」を選択します。  
-   「Linux用Windowsサブシステム」にチェックを入れて「OK」をクリックします。
-   <Figure
-     src="https://docs-cdn.ashitabo.net/setup/1-1.jpg"
-     caption="WSLを有効化する"
-     width={600}
-   />
-2. **PowerShellを管理者権限で開く**  
+<StepList>
+1. **PowerShellを管理者権限で開く**  
    スタートメニューから「PowerShell」を検索し、右クリックして「管理者として実行」を選択します。
-3. **WSLのインストールコマンドを実行**  
+2. **WSLのインストールコマンドを実行**  
    以下のコマンドをPowerShellに入力して実行します。
    ```powershell
    wsl --install
    ```
-4. **再起動**  
-   インストールが完了したら、PCを再起動します。しなくてもいいかもしれんけど一応してください。
-5. **初回起動とユーザー設定**  
-   Ubuntuを起動し、初回セットアップを行います。ユーザー名とパスワードを設定してください。
+   :::info
+   「ダウンロードしています：Ubuntu」とか出てきたらいい感じです。
+   :::
+3. **初回起動とユーザー設定**  
+   インストールすると自動でUbuntuが起動するはずなので初回セットアップを行います。ユーザー名とパスワードを設定してください。
+   :::warning
+   Ubuntuが起動しない場合は「PowerShell」(管理者権限で開く必要はありません)から以下のコマンドを実行して起動してください。
+   ```powershell
+   wsl
+   ```
+   :::
+
+   多分こんな感じのプロンプトが出るはずです。入力してください。
+   ```powershell
+   Provisioning the new WSL instance Ubuntu
+   This might take a while...
+   Create a default UNIX user account: <ここにユーザー名を入力>
+   New password: <ここにパスワードを入力>
+   Retype new password: <もう一度パスワードを入力>
+   ```
+   まあなんか違っても大丈夫です。とりあえずユーザー名とパスワードを設定してください。
+   :::tip
+   ユーザー名とパスワードはなんでもいいですが、忘れないようにしてください。
+   僕はユーザー名は`watabegg`にしててパスワードは`PcadUua`にしてます。別にセキュリティを求められていないので簡単なものにしてください。僕は後悔しています。
+   :::
+4. **WSLのバージョン確認**
+   初期設定が終わったら、なんかPowerShellに色が付きましたね？ それはWSLが起動している証拠です。次に
+   ```
+   exit
+   ```
+   と入力してWSLを終了します。再びWindowsのPowerShellに戻ったのでWSLのバージョンを確認します。以下のコマンドを実行してください。
+   ```bash
+   wsl -l -v
+   ```
+   もしWSLのバージョンが1になっていたら、以下のコマンドでバージョン2にアップグレードしてください。
+   ```bash
+   wsl --set-version Ubuntu 2
+   ```
+   :::tip
+   再度WSLを起動するには、PowerShellで
+   ```bash
+   wsl
+   ```
+   と入力してください。そんだけでOK！
+   :::
+</StepList>
+
+WSLのインストールは以上です。この時点で詰まったらすぐに教えて下さい。
+
+## 2. 開発環境のセットアップ
+
+WSLがインストールできたら、次に開発環境をセットアップします。以下の手順に従ってください。
+curlやgitなどの基本ツールはUbuntuを入れれば付いてくるのでそれでいいです。
+<StepList>
+1. **WSLを起動**  
+   PowerShellで以下のコマンドを実行してWSLを起動します。
+   ```bash
+   wsl
+   ```
+2. **Node.jsのインストール**  
+   Node.jsというJavaScriptをPC上で実行するための環境をインストールします。以下のコマンドを実行してください。
+   ```bash
+   curl https://get.volta.sh | bash
+   source ~/.bashrc
+   volta install node@lts
+   volta install pnpm
+   ```
+   :::tip
+   Node.jsはなんかいろんなバージョンがあってそれを管理するためにVoltaというツールを使っています。Voltaを使うとプロジェクトごとにNode.jsのバージョンを変えられたりして便利です。  
+   他にもいろいろ`nvm`とかあるけどこれが一番楽そう。
+   :::
+3. **動作確認**  
+   Node.jsとpnpmが正しくインストールされたか確認するために、以下のコマンドを実行してバージョン情報が表示されることを確認してください。
+   ```bash
+   node -v
+   pnpm -v
+   ```
+   ちゃんとバージョンが表示されたら成功です！
+</StepList>
+
+## 3. エディタのインストール
+次にコードを書くためのエディタをインストールします。Visual Studio Code(以下VSCode)をまだインストールしていない場合は、以下のQiitaを参考にしてインストールしてください。
+
+[Visual Studio Codeのインストール方法](https://qiita.com/mmake/items/2cf2131a0ab5bc431215)
+
+この記事では親切に日本語化の方法まで書いてあります。やっといてください。
+あと「WSL」「Git Graph」などを入れておくといいです。ほかにも便利ツールあるけど一旦ね。
+
+以上でWSLでの環境構築は完了です。お疲れ様でした！
+次はGit, GitHubの設定に進んでください。
