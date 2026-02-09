@@ -16,10 +16,217 @@ Next.jsを使用することで、Reactアプリケーションの開発がよ�
 エディタ(Visual Studio Code)のインストールまで出来てたら十分です。
 :::
 
-## 8.1 データのやり取りを伴うアプリ
-[さっき](./web-app)で説明したように、Webアプリはフロントエンドとバックエンドの2つの部分で構成されていることがほとんどで、
-サーバーとデータのやり取りを行い、複数のページを持ち、認証やデータベース操作などの機能を備えています。
-こうしたWebアプリを構築する際、Next.jsがめちゃくちゃ役立ちます。
+## 8.1 ディレクトリ構造
+Node.jsの環境を作ったら、Next.jsのプロジェクトを作成してみましょう。
+```bash
+pnpm create next-app next-sample
+```
+上記コマンドで`next-sample`というディレクトリが作成され、その中にNext.jsのプロジェクトが生成されます。
+まあなんか`Would you like to use the recommended Next.js defaults?`って聞かれるはずですが、全部Enterで大丈夫です。  
 
-## 8.2 複数のページの管理
-Next.jsは、**ファイルベースのルーティング**を提供します。
+生成されたプロジェクトのディレクトリ構造はだいたい以下のようになります。(Next.js v16, デフォルト設定の場合)
+```
+├── README.md
+├── app/
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── node_modules/
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── public/
+└── tsconfig.json
+```
+
+んーまあ色々ありますが重要なのは`app/`ディレクトリです。  
+`app/`ディレクトリの中にある`page.tsx`がアプリケーションのトップページを表しています。つまり、Next.jsで作ったサイト、`http://hogehoge.com/`にアクセスしたときに表示される内容です。
+`layout.tsx`は名前の通りレイアウトです。あんまり気にしなくてOK!
+
+## 8.2 page.tsxの中身
+では、`app/page.tsx`の中身を見てみましょう。
+```tsx
+import Image from "next/image";
+
+export default function Home() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={100}
+          height={20}
+          priority
+        />
+        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+            To get started, edit the page.tsx file.
+          </h1>
+          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            Looking for a starting point or more instructions? Head over to{" "}
+            <a
+              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              className="font-medium text-zinc-950 dark:text-zinc-50"
+            >
+              Templates
+            </a>{" "}
+            or the{" "}
+            <a
+              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              className="font-medium text-zinc-950 dark:text-zinc-50"
+            >
+              Learning
+            </a>{" "}
+            center.
+          </p>
+        </div>
+        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+          <a
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={16}
+              height={16}
+            />
+            Deploy Now
+          </a>
+          <a
+            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Documentation
+          </a>
+        </div>
+      </main>
+    </div>
+  );
+}
+```
+
+うわー！なんか色々書いてある！
+ではとりあえず以下のコマンドも実行して開発サーバーを立ち上げてみましょう。
+```bash
+cd next-sample
+pnpm dev
+```
+ブラウザで`http://localhost:3000`にアクセスすると、Next.jsのデフォルトのトップページが表示されるはずです。
+
+<Figure src="https://docs-cdn.ashitabo.net/web-dev/8-1.jpg" caption="Next.jsのデフォルトのトップページ" alt="Next.jsのデフォルトのトップページ" />
+
+このコードはReactとTailwind CSSを使って書かれています。
+- `import Image from "next/image"`はNext.jsが提供する画像最適化コンポーネントをインポートしています。  
+- `export default function Home() { ... }`はReactの関数コンポーネントを定義しています。
+- `return ( ... )`の中にあるのがJSXという構文で、HTMLに似た記述でUIを定義しています。
+- `className="..."`はTailwind CSSのユーティリティクラスを使ってスタイルを適用しています。
+
+## 8.3 新しいPageの追加
+では、新しいページを追加してみましょう。
+適当になんか`about`ページを追加してみます。
+`app/about/page.tsx`というファイルを作成し、以下の内容を追加します。
+```tsx
+'use client';
+
+import { useState } from 'react';
+
+const AboutPage = () => {
+  const [count, setCount] = useState<number>(0);
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">About Page</h1>
+      <p className="mb-4">This is the about page of our Next.js application.</p>
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => setCount(count + 1)}
+      >
+        Clicked {count} times
+      </button>
+    </div>
+  );
+};
+
+export default AboutPage;
+```
+
+この状態で`http://localhost:3000/about`にアクセスすると、以下のようなページが表示されるはずです。
+<Figure src="https://docs-cdn.ashitabo.net/web-dev/8-2.jpg" caption="追加したAboutページ" alt="追加したAboutページ" />
+
+なんかいくつか変わった部分がありますね。
+- `use client`という魔法が書いてあります。難しい話は[あと](../dev-advanced/js)でしますが、Reactのhooks(`useState`とかね)を使うときに必要です。
+- `useState`を使ってクリックされた回数をカウントしています。ボタンをクリックすると状態が更新され、`UI=f(state, props)`の思想に基づき表示が変わります。
+- `const AboutPage = () => { ... }`はアロー関数でコンポーネントを定義しています。普通の関数定義とほぼ同じです。
+- `export default AboutPage`で関数コンポーネントをエクスポートしています。これにより、Next.jsはこのコンポーネントをページとして認識します。
+
+これで新しいページの追加ができました。
+
+## 8.4 切り離したコンポーネントの利用
+Next.jsでは、コンポーネントを別ファイルに切り離して再利用することができます。
+例えば、`app/_components/Counter.tsx`というファイルを作成し、以下の内容を追加します。
+```tsx
+'use client';
+
+import { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState<number>(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+
+この`Counter`コンポーネントを先ほどの`about/page.tsx`で利用してみましょう。
+```tsx
+'use client';
+
+import Counter from '@/app/_components/Counter';
+
+
+const AboutPage = () => {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">About Page</h1>
+      <p className="mb-4">This is the about page of our Next.js application.</p>
+      <Counter />
+    </div>
+  );
+};
+
+export default AboutPage;
+```
+
+これで`About`ページに`Counter`コンポーネントが組み込まれ、カウント機能が利用できるようになります。
+このコンポーネントの切り離しにより、コードの読みやすさ、またコンポーネントの再利用を促進します。
+
+## 8.5 まとめ
+- Next.jsはReactをベースにしたWebアプリケーションフレームワーク
+- `app/`ディレクトリ内の`page.tsx`が各ページを表す
+- Reactの関数コンポーネントとJSXを使ってUIを定義
+- コンポーネントを別ファイルに切り離して再利用可能
+
+以上です。これで概ねWebアプリケーションの基礎が理解できたと思いますから、あとは実際にコードを読んだり新規開発実装に挑戦してみてください。
+
+:::tip
+Next.jsの詳しい使い方や高度な機能については公式ドキュメントを参照してください。  
+[Next.js公式ドキュメント](https://nextjs.org/docs)
+:::
