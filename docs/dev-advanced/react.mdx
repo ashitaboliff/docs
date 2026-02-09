@@ -1,0 +1,83 @@
+---
+sidebar_position: 2
+---
+
+# 2. Reactの副作用とuseEffect
+
+[Reactとは](../web-development/react)では、`state`と`props`でUIが決まるという基本を扱いました。  
+この章では、その基本から少し外れる「副作用」と`useEffect`を扱います。
+
+## 2.1 副作用とは
+副作用(side effect)は、Reactコンポーネントの外側にあるものと同期する処理です。例えば以下です。
+- API通信(fetch)
+- タイマー(`setInterval`)
+- ブラウザAPI(`localStorage`, `document.title`)
+- イベント購読(`addEventListener`)
+
+言い換えると、「画面を計算して返す」以外の処理が副作用です。
+
+## 2.2 `useEffect`を気軽に使うな
+
+:::warning
+`useEffect`は気軽に使うな。
+:::
+
+理由はシンプルです。考えることが一気に増えるからです。
+- 依存配列を正しく書けるか
+- 何度実行されるかを把握できるか
+- クリーンアップを忘れていないか
+
+特に初学者は「計算だけで済む処理」まで`useEffect`に入れがちです。  
+これはバグの温床になりやすいです。
+
+## 2.3 よくあるアンチパターン
+以下は「`useEffect`なしで書ける」代表例です。
+
+```jsx
+// 悪い例: 計算だけなのにuseEffectを使っている
+const [fullName, setFullName] = useState('');
+
+useEffect(() => {
+  setFullName(`${firstName} ${lastName}`);
+}, [firstName, lastName]);
+```
+
+```jsx
+// 良い例: render中に普通に計算する
+const fullName = `${firstName} ${lastName}`;
+```
+
+このように、**入力から直接計算できる値はstateにしない**のが基本です。
+
+## 2.4 `useEffect`を使ってよい場面
+逆に、以下は`useEffect`を使う価値があります。
+- APIからデータを取得する
+- タイマーを開始/停止する
+- 外部イベントを購読/解除する
+
+例えばタイマーは次のように書きます。
+
+```jsx
+const [now, setNow] = useState(new Date());
+
+useEffect(() => {
+  const timerId = setInterval(() => {
+    setNow(new Date());
+  }, 1000);
+
+  return () => clearInterval(timerId);
+}, []);
+```
+
+## 2.5 迷ったときのチェック
+`useEffect`を書く前に、この3つを自問してください。
+1. これはrender中の計算で済まないか？
+2. これはイベントハンドラ(`onClick`など)で済まないか？
+3. これは外部システムとの同期か？
+
+3つ目が「はい」なら、`useEffect`を検討してOKです。
+
+## 2.6 参考
+- [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
+- [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects)
+
