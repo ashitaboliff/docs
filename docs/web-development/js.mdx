@@ -112,7 +112,60 @@ function changeText() {
 
 特にbuttonタグは`onclick`属性を持っていて、ここにJavaScriptの関数名を書くと、そのボタンがクリックされたときにその関数が実行されます。
 
-## 4.4 まとめ
+## 4.4 もっと高度な機能
+たとえば、`modalButton`というIDを持つボタンをクリックしたときに、`modal`というIDを持つ要素の表示/非表示を切り替える例を見てみましょう。
+
+```js
+// script.js
+document.getElementById("modalButton").addEventListener("click", function() {
+  const modal = document.getElementById("modal");
+  if (modal.style.display === "none") {
+    modal.style.display = "block";
+  } else {
+    modal.style.display = "none";
+  }
+});
+```
+
+```css
+/* styles.css */
+#modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+}
+```
+
+```html
+<!-- sample.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>サンプルページ</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div id="my-id">
+      <h1 id="my-id-2">ようこそ、あしたぼホームページへ！</h1>
+      <p class="my-class">これはサンプルのHTMLページです。</p>
+      <button id="modalButton">モーダルを開く/閉じる</button>
+      <div id="modal" style="display: none;">
+        <p>これはモーダルウィンドウです。</p>
+      </div>
+      <a href="https://www.ashitabo.net">あしたぼホームページへ移動</a>
+    </div>
+  </body>
+</html>
+```
+
+このコードでは、`addEventListener`メソッドを使用して、`modalButton`がクリックされたときに実行される関数を登録しています。関数内では、`modal`要素の現在の表示状態を確認し、表示/非表示を切り替えています。
+
+## 4.5 まとめ
 - JavaScriptはWebページに動的な機能を追加するためのプログラミング言語
 - DOMを操作してHTMLの内容を動的に変更できる
 - JavaScriptコードはHTML内の`<script>`タグに直接書くことも、外部ファイルに分離して読み込むこともできる
