@@ -1,59 +1,16 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 ---
 
 import Figure from '@site/src/components/Figure'
 import StepList from '@site/src/components/StepList'
 
 # あしたぼホームページの見方
-この章では、まず、VS Codeを開いて見えるあしたぼホームページのコードの見方について紹介します。
 
-:::info
-この章はあくまでコードの見方の紹介で、実際の開発フローについては次の章で説明します。
-:::
+開発のためにはコードをどう見るかを知るのが大切です。まずはフロントエンドである`app/frontend`のコードを一緒に見ていきましょう。
 
-## 1. VS Codeで開いてみる
-まず、VS Codeを開きましょう。  
-VS Codeを開いたら、左側のメニューにある「リモートエクスプローラー」からWSLのUbuntuに接続しましょう。  
-そうしてから左上の「ファイル」→「ファイルでワークスペースを開く」を選択すると、Ubuntuのファイルシステムが見えるはずです。  
-VS CodeをWindowsで使ったことのある人なら少し慣れない画面が出てきたと思いますが、
-とりあえず`home`→`ユーザー名`(WSLのユーザー名)→`ashitabo`と進んで、`ashitabo`を開けば`ashitabo.code-workspace`というVS Codeのワークスペース機能のためのファイルが見えるはずです。これを開きましょう。
-<Figure
-  src="https://docs-cdn.ashitabo.net/setup/5-1.jpg"
-  alt="VS CodeでのWSLのファイルシステムのスクショ"
-  width={600}
-  caption="VS CodeでのWSLのファイルシステムのスクショ"
-/>
-
-## 2. コードの見方
-あしたぼホームページのコードは、以下のようなディレクトリ構成になっています。
-```
-├── app
-│   ├── frontend
-│   ├── backend
-│   └── docs
-├── packages
-│   └── types
-└── utils
-    └── gacha
-```
-- `app/frontend`：フロントエンドのコードが入っています。ユーザーが直接触れる部分のコードです。
-- `app/backend`：バックエンドのコードが入っています。サーバー側で動作し、データの処理や保存を担当するコードです。
-- `app/docs`：このドキュメントのコードが入っています。あしたぼホームページのドキュメントはこのリポジトリで管理されています。
-- `packages/types`：フロントエンドとバックエンドで共通で使用される型定義が入っています。
-- `utils/gacha`：あしたぼホームページのガチャのための画像加工ロジックが入っています。
-
-<Figure
-  src="https://docs-cdn.ashitabo.net/setup/5-2.png"
-  alt="あしたぼホームページのディレクトリ構成のスクショ"
-  width={600}
-  caption="こんな風に見えてるよね"
-/>
-
-皆さんが触るのは最初は`app/frontend`だけなので、まずは`app/frontend`のコードを見てみましょう。
-
-## 3. `app/frontend`のコードの見方
-`app/frontend`のコードは、さらに以下のようなディレクトリ構成になっています。
+## 1. `app/frontend`のコードの見方
+`app/frontend`のコードは、以下のようなディレクトリ構成になっています。
 ```
 frontend
 ├── .github/
@@ -112,3 +69,7 @@ frontend
 
 :::tip
 このように、いろんなページを見ることが出来ますが、一番すべてがシンプルに詰まっているページは`app/booking/[id]/page.tsx`です。
+:::
+
+## 2. コードの見方
+では、さきほど例に出した`app/booking/[id]/page.tsx`を開いてみましょう。
