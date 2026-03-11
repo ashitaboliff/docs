@@ -110,6 +110,12 @@ function changeText() {
 「クリックしてね」と書かれたボタンをクリックすると、`<h1>`タグ内のテキストが`ボタンがクリックされました！`に変更されます。
 このように、JavaScriptを使用してユーザーの操作に応じてWebページの内容を動的に変更することができます。
 
+<Figure
+  src="https://docs-cdn.ashitabo.net/web-dev/4-1.gif" 
+  caption="ボタンをクリックするとh1の要素が書き変わるJavaScriptの動作例" 
+  alt="ボタンをクリックするとh1の要素が書き変わるJavaScriptの動作例"
+/>
+
 特にbuttonタグは`onclick`属性を持っていて、ここにJavaScriptの関数名を書くと、そのボタンがクリックされたときにその関数が実行されます。
 
 ## 4.4 もっと高度な機能
@@ -163,7 +169,18 @@ document.getElementById("modalButton").addEventListener("click", function() {
 </html>
 ```
 
+<Figure
+  src="https://docs-cdn.ashitabo.net/web-dev/4-2.gif" 
+  caption="モーダルウィンドウのJavaScriptの動作例" 
+  alt="モーダルウィンドウのJavaScriptの動作例"
+/>
+
 このコードでは、`addEventListener`メソッドを使用して、`modalButton`がクリックされたときに実行される関数を登録しています。関数内では、`modal`要素の現在の表示状態を確認し、表示/非表示を切り替えています。
+
+:::tip
+JavaScriptではクリックやドラッグなどのWebサイト上でのユーザーの操作を「**イベント**」と呼びます。`addEventListener`は特定のイベントが発生したときに実行される関数を登録するためのメソッドです。  
+また[4.3 JavaScriptでDOMを操作する](./js#43-javascriptでdomを操作する)のように特定の要素でクリックのイベントが発生したときに実行される関数を登録するための`onclick`属性もありますが、ノーマルのJavaScriptでは`addEventListener`の方がより柔軟で推奨されます。
+:::
 
 ## 4.5 まとめ
 - JavaScriptはWebページに動的な機能を追加するためのプログラミング言語

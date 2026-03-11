@@ -11,18 +11,18 @@
   counter-reset: step;
 }
 
-.stepList li {
+.stepList ol > li {
   position: relative;
   padding-left: calc(var(--step-size) + var(--step-gap));
   padding-bottom: 1.6rem;
   margin: 0;
 }
 
-.stepList li:last-child {
+.stepList ol > li:last-child {
   padding-bottom: 0.2rem;
 }
 
-.stepList li::before {
+.stepList ol > li::before {
   counter-increment: step;
   content: counter(step);
   position: absolute;
@@ -44,7 +44,7 @@
   justify-content: center;
 }
 
-.stepList li::after {
+.stepList ol > li::after {
   content: "";
   position: absolute;
   left: calc(var(--step-size) / 2 - var(--step-line) / 2);
@@ -55,15 +55,15 @@
   border-radius: 999px;
 }
 
-.stepList li:last-child::after {
+.stepList ol > li:last-child::after {
   display: none;
 }
 
-.stepList li > p {
+.stepList ol > li > p {
   margin: 0.1rem 0 0.6rem;
 }
 
-.stepList li > p:last-child {
+.stepList ol > li > p:last-child {
   margin-bottom: 0;
 }
 

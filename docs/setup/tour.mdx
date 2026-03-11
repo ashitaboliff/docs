@@ -15,8 +15,9 @@ import StepList from '@site/src/components/StepList'
 ## 1. VS Codeで開いてみる
 まず、VS Codeを開きましょう。  
 VS Codeを開いたら、左側のメニューにある「リモートエクスプローラー」からWSLのUbuntuに接続しましょう。  
-そうしてから左上の「ファイル」→「フォルダを開く」を選択すると、Ubuntuのファイルシステムが見えるはずです。  
-VS CodeをWindowsで使ったことのある人なら少し慣れない画面が出てきたと思いますが、とりあえず`home`→`ユーザー名`(WSLのユーザー名)→`ashitabo`と進んで、`ashitabo`を開けばあしたぼホームページのコードが見えるはずです。
+そうしてから左上の「ファイル」→「ファイルでワークスペースを開く」を選択すると、Ubuntuのファイルシステムが見えるはずです。  
+VS CodeをWindowsで使ったことのある人なら少し慣れない画面が出てきたと思いますが、
+とりあえず`home`→`ユーザー名`(WSLのユーザー名)→`ashitabo`と進んで、`ashitabo`を開けば`ashitabo.code-workspace`というVS Codeのワークスペース機能のためのファイルが見えるはずです。これを開きましょう。
 <Figure
   src="https://docs-cdn.ashitabo.net/setup/5-1.jpg"
   alt="VS CodeでのWSLのファイルシステムのスクショ"
@@ -108,3 +109,6 @@ frontend
 └── ...
 ```
 って感じになってますね。[Next.jsの基礎](../web-development/next.mdx)でも説明していますが、`https://www.ashitabo.net/booking`にアクセスして表示されるのが`app/booking/page.tsx`です。
+
+:::tip
+このように、いろんなページを見ることが出来ますが、一番すべてがシンプルに詰まっているページは`app/booking/[id]/page.tsx`です。
