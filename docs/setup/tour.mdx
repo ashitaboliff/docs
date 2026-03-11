@@ -1,0 +1,110 @@
+---
+sidebar_position: 4
+---
+
+import Figure from '@site/src/components/Figure'
+import StepList from '@site/src/components/StepList'
+
+# あしたぼホームページの見方
+この章では、まず、VS Codeを開いて見えるあしたぼホームページのコードの見方について紹介します。
+
+:::info
+この章はあくまでコードの見方の紹介で、実際の開発フローについては次の章で説明します。
+:::
+
+## 1. VS Codeで開いてみる
+まず、VS Codeを開きましょう。  
+VS Codeを開いたら、左側のメニューにある「リモートエクスプローラー」からWSLのUbuntuに接続しましょう。  
+そうしてから左上の「ファイル」→「フォルダを開く」を選択すると、Ubuntuのファイルシステムが見えるはずです。  
+VS CodeをWindowsで使ったことのある人なら少し慣れない画面が出てきたと思いますが、とりあえず`home`→`ユーザー名`(WSLのユーザー名)→`ashitabo`と進んで、`ashitabo`を開けばあしたぼホームページのコードが見えるはずです。
+<Figure
+  src="https://docs-cdn.ashitabo.net/setup/5-1.jpg"
+  alt="VS CodeでのWSLのファイルシステムのスクショ"
+  width={600}
+  caption="VS CodeでのWSLのファイルシステムのスクショ"
+/>
+
+## 2. コードの見方
+あしたぼホームページのコードは、以下のようなディレクトリ構成になっています。
+```
+├── app
+│   ├── frontend
+│   ├── backend
+│   └── docs
+├── packages
+│   └── types
+└── utils
+    └── gacha
+```
+- `app/frontend`：フロントエンドのコードが入っています。ユーザーが直接触れる部分のコードです。
+- `app/backend`：バックエンドのコードが入っています。サーバー側で動作し、データの処理や保存を担当するコードです。
+- `app/docs`：このドキュメントのコードが入っています。あしたぼホームページのドキュメントはこのリポジトリで管理されています。
+- `packages/types`：フロントエンドとバックエンドで共通で使用される型定義が入っています。
+- `utils/gacha`：あしたぼホームページのガチャのための画像加工ロジックが入っています。
+
+<Figure
+  src="https://docs-cdn.ashitabo.net/setup/5-2.png"
+  alt="あしたぼホームページのディレクトリ構成のスクショ"
+  width={600}
+  caption="こんな風に見えてるよね"
+/>
+
+皆さんが触るのは最初は`app/frontend`だけなので、まずは`app/frontend`のコードを見てみましょう。
+
+## 3. `app/frontend`のコードの見方
+`app/frontend`のコードは、さらに以下のようなディレクトリ構成になっています。
+```
+frontend
+├── .github/
+├── node_modules/
+├── public/
+├── src/
+│   ├── app/
+│   ├── content/
+│   ├── domains/
+│   ├── shared/
+│   ├── types/
+│   └── proxy.ts
+├── .env.example
+├── package.json
+├── tsconfig.json
+├── README.md
+├── .gitignore
+└── ...
+```
+- `.github`：GitHubのワークフローなどの設定ファイルが入っています。
+- `node_modules`：Node.jsのパッケージが入っています。触る必要はありません。
+- `public`：静的ファイルが入っています。画像とかフォントとか。
+- `src`：フロントエンドのコードが入っています。ここを触っていきます。
+
+`src`の中はさらに以下のような構成になっています。
+```src
+├── app/
+├── content/
+├── domains/
+├── shared/
+├── types/
+└── proxy.ts
+```
+この中でみんながいじるのは多分`app`と`shared`, `domains`の中のコードが中心になると思います。
+特に`app`があしたぼホームページのページを描画するためのNext.jsの`page.tsx`が入っているディレクトリです。開いてみましょう。
+
+すると
+```app
+├── (easter-egg)/
+├── (term_privacy)/
+├── ...
+├── booking/
+│   ├── _components/
+│   ├── [id]/
+│   ├── ...
+│   └── page.tsx
+├── ...
+├── home/
+├── ...
+├── favicon.ico
+├── globals.css
+├── layout.tsx
+└── ...
+```
+って感じになってますね。[Next.jsの基礎](../web-development/next.mdx)でも説明していますが、`https://www.ashitabo.net/booking`にアクセスして表示されるのが`app/booking/page.tsx`です。
