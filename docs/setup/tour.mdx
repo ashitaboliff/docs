@@ -9,19 +9,19 @@ import StepList from '@site/src/components/StepList'
 
 開発のためにはコードをどう見るかを知るのが大切です。まずはフロントエンドである`app/frontend`のコードを一緒に見ていきましょう。
 
-## 1. `app/frontend`のコードの見方
+## 1. `app/frontend`のディレクトリの見方
 `app/frontend`のコードは、以下のようなディレクトリ構成になっています。
 ```
 frontend
 ├── .github/
 ├── node_modules/
 ├── public/
+├── secrets/
 ├── src/
 │   ├── app/
 │   ├── content/
 │   ├── domains/
 │   ├── shared/
-│   ├── types/
 │   └── proxy.ts
 ├── .env.example
 ├── package.json
@@ -33,6 +33,7 @@ frontend
 - `.github`：GitHubのワークフローなどの設定ファイルが入っています。
 - `node_modules`：Node.jsのパッケージが入っています。触る必要はありません。
 - `public`：静的ファイルが入っています。画像とかフォントとか。
+- `secrets`：暗号化された環境変数ファイルが入っています。触る必要はありません。
 - `src`：フロントエンドのコードが入っています。ここを触っていきます。
 
 `src`の中はさらに以下のような構成になっています。
@@ -41,7 +42,6 @@ frontend
 ├── content/
 ├── domains/
 ├── shared/
-├── types/
 └── proxy.ts
 ```
 この中でみんながいじるのは多分`app`と`shared`, `domains`の中のコードが中心になると思います。
@@ -73,3 +73,157 @@ frontend
 
 ## 2. コードの見方
 では、さきほど例に出した`app/booking/[id]/page.tsx`を開いてみましょう。
+
+```tsx
+import type { Metadata, ResolvingMetadata } from 'next'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
+import Loading from '@/app/booking/_components/BookingDetailLoading'
+import BookingDetail from '@/app/booking/[id]/_components/BookingDetail'
+import { getBookingByIdAction } from '@/domains/booking/api/actions'
+import { BOOKING_TIME_LIST } from '@/domains/booking/constants'
+import { createMetaData } from '@/shared/hooks/useMetaData'
+import { formatDateJa } from '@/shared/utils/date/format'
+import { logError } from '@/shared/utils/logger'
+
+type Props = { params: Promise<{ id: string }> }
+
+export async function generateMetadata(
+  { params }: Props,
+  _parent: ResolvingMetadata,
+): Promise<Metadata> {
+... //長いから省略
+}
+
+const Content = async ({ id }: { id: string }) => {
+  const res = await getBookingByIdAction(id)
+  if (!res.ok || !res.data) {
+    logError(
+      `[Booking Detail Page] Failed to fetch booking detail. status: ${res.status}`,
+    )
+    return notFound()
+  }
+  return <BookingDetail booking={res.data} />
+}
+
+const Page = async ({ params }: Props) => {
+  const { id } = await params
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <Content id={id} />
+    </Suspense>
+  )
+}
+
+export default Page
+```
+
+このコードは、`/booking/[id]`のページを描画するためのコードです。
+
+:::tip
+Webにおいて、`[id]`のようにブラケットで囲まれた部分は**動的ルーティング**と呼ばれるもので、URLの一部を変数として扱うことができます。  
+例えばtwitterのユーザーページは`https://twitter.com/[username]`ですが、`[username]`の部分は動的ルーティングになっていて、実際にはユーザーごとに異なる値が入ります。
+(僕のアカウントなら`https://twitter.com/watabegg`でアクセスできるように)  
+Next.jsでは、`app/booking/[id]/page.tsx`のようにファイルを配置することで、`/booking/[id]`のURLにアクセスしたときにこのコードが実行されるようになります。  
+詳細は[Next.js - layouts and routing](https://nextjs.org/docs/app/getting-started/layouts-and-pages)を見てください。
+:::
+
+Next.jsの`page.tsx`は基本的にReactのコンポーネントをエクスポートする形で書かれています。  
+このコードでは、`Page`というReactコンポーネントがエクスポートされていて、これがページ全体のコンポーネントになっています。  
+`Page`コンポーネントの中で、`Content`という別のコンポーネントを呼び出していますが、これはページの内容を描画するためのコンポーネントです。
+
+:::tip
+`<Suspense>`や`generateMetadata`などはReact, Next.jsの機能でこれらはいったん無視でOK!
+:::
+
+では、`Content`コンポーネントの中を見てみましょう。
+```tsx
+const Content = async ({ id }: { id: string }) => {
+  const res = await getBookingByIdAction(id)
+  if (!res.ok || !res.data) {
+    logError(
+      `[Booking Detail Page] Failed to fetch booking detail. status: ${res.status}`,
+    )
+    return notFound()
+  }
+  return <BookingDetail booking={res.data} />
+}
+```
+このコンポーネントは、`getBookingByIdAction`という関数を呼び出して、予約の詳細情報を取得しています。  
+`getBookingByIdAction`はNext.jsの`Server Action`という機能を使っていて、バックエンドサーバから情報を取ってくるための関数になっています。
+
+:::info
+`getBookingByIdAction`の詳細な実装はここでは触れません。  
+こういうコードに出てくる関数やコンポーネントの実装を見に行きたい場合、VSCodeで関数名やコンポーネント名を選択して右クリック→「定義へ移動」を選択すると、その関数やコンポーネントの実装が書いてあるファイルに飛ぶことができます。  
+これはF12キーを押しても同じです。便利よ
+:::
+
+この結果が`res`に入ります。もし`res.ok`が`false`だったり、`res.data`が存在しない場合はエラーとしてログを出力し、ページ全体を404 Not Foundにしています。
+もし`res.ok`が`true`で、`res.data`が存在する場合は、`BookingDetail`というReactコンポーネントに予約の詳細情報を渡して描画しています。
+
+では`BookingDetail`コンポーネントの実装も見てみましょう。
+
+```tsx
+'use client'
+
+import { usePathname, useRouter } from 'next/navigation'
+import { BOOKING_TIME_LIST } from '@/domains/booking/constants'
+import type { Booking } from '@/domains/booking/model/types'
+import AddBookingToCalendar from '@/domains/booking/ui/AddBookingToCalendar'
+import BookingDetailCard from '@/domains/booking/ui/BookingDetailCard'
+import { Ads } from '@/shared/ads/ui'
+import ShareToLineButton from '@/shared/ui/molecules/ShareToLineButton'
+import { formatDateSlashWithWeekday } from '@/shared/utils/date/format'
+
+type Props = {
+  readonly booking: Booking
+}
+
+const BookingDetail = ({ booking }: Props) => {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  return (
+    <div className="mx-auto max-w-md">
+      <BookingDetailCard booking={booking} />
+      <Ads placement="MenuDisplay" />
+      <div className="flex w-full flex-row items-center justify-center gap-2">
+        <button
+          type="button"
+          className="btn btn-primary flex-1"
+          onClick={() => router.push(`/booking/${booking.id}/edit`)}
+        >
+          編集
+        </button>
+        <AddBookingToCalendar
+          booking={booking}
+          buttonLabel="スマホ追加"
+          buttonClassName="btn btn-accent btn-outline flex-1"
+        />
+        <ShareToLineButton
+          url={pathname}
+          text={`予約日時: ${formatDateSlashWithWeekday(booking.bookingDate, {
+            space: false,
+          })} ${BOOKING_TIME_LIST[Number(booking.bookingTime)]}`}
+          className="flex-1"
+          label="共有"
+        />
+      </div>
+      <button
+        type="button"
+        className="btn btn-ghost mt-2 w-full"
+        onClick={() => router.push('/booking')}
+      >
+        戻る
+      </button>
+    </div>
+  )
+}
+
+export default BookingDetail
+```
+
+かなりシンプルです！`BookingDetail`コンポーネントは、予約の詳細情報を受け取って、それを表示するためのコンポーネントです。
+このコンポーネントの中では、`BookingDetailCard`という別のコンポーネントを呼び出して、予約の詳細情報をカード形式で表示しています。
+また、予約の編集ページへの遷移や、予約をカレンダーに追加するためのボタン、LINEで共有するためのボタンなども配置しています。
