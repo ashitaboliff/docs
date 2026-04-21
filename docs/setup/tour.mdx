@@ -48,18 +48,21 @@ frontend
 特に`app`があしたぼホームページのページを描画するためのNext.jsの`page.tsx`が入っているディレクトリです。開いてみましょう。
 
 すると
-```app
-├── (easter-egg)/
-├── (term_privacy)/
-├── ...
-├── booking/
-│   ├── _components/
-│   ├── [id]/
+```
+app/
+├── admin/ # 管理者用ページ群
+├── (public)/ # 公開ページ群
+│   ├── (easter-egg)/
+│   ├── (term_privacy)/
 │   ├── ...
-│   └── page.tsx
-├── ...
-├── home/
-├── ...
+│   ├── booking/
+│   │   ├── _components/
+│   │   ├── [id]/
+│   │   │   └── ...
+│   │   └── page.tsx
+│   ├── ...
+│   ├── home/
+│   └── ...
 ├── favicon.ico
 ├── globals.css
 ├── layout.tsx
